@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="demo">
+
+	<!-- 
+		원래는 이렇게 작성해줘야함.
+		#{lang, typehandler=stringArray2VarcharTypeHandler}
+		@MappedTypes MappedJdbcType 선언시 생략가능!
+		
+		TypeHandler 없었을 경우 반복문 돌림.
+		<foreach collection="lang" item="lng" open="'" close="'" separator=",">${lng}</foreach>
+	 -->
+	<insert id="insertDev">
+		insert into dev
+		values(seq_dev_no.nextval, #{name}, #{career}, #{email}, #{gender}, #{lang})
+	</insert>
+	
+	<select id="selectAllDev" resultType="dev">
+		select * from dev order by no desc
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
