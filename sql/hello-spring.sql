@@ -55,9 +55,70 @@ create table member(
 select * from member;
 
 
+update member set password = '$2a$10$Uu4o8Iw0rPUFJA1nj/BIV.pmkZYLTc3ecNXmk4fsH7i6tD8.2IRJ6' where id = 'admin';
+
 --insert into spring.member values ('abcde','1234','아무개','M',to_date('88-01-25','rr-mm-dd'),'abcde@naver.com','01012345678','서울시 강남구','운동,등산,독서',default,default);
 --insert into spring.member values ('qwerty','1234','김말년','F',to_date('78-02-25','rr-mm-dd'),'qwerty@naver.com','01098765432','서울시 관악구','운동,등산',default,default);
 --insert into spring.member values ('admin','1234','관리자','F',to_date('90-12-25','rr-mm-dd'),'admin@naver.com','01012345678','서울시 강남구','독서',default,default);
+
+
+
+
+-- ==================================================================
+-- memo테이블 생성
+-- ==================================================================
+create table memo (
+    no number,
+    memo varchar2(2000),
+    password char(4) not null,
+    reg_date date default sysdate,
+    constraint pk_memo_no primary key(no)
+);
+
+create sequence seq_memo_no;
+
+insert into memo values(seq_memo_no.nextval, '안녕하세요~ 반갑습니다.', '1234', default);
+insert into memo values(seq_memo_no.nextval, '파이널프로젝트 화이팅!', '1234', default);
+insert into memo values(seq_memo_no.nextval, '여보세요~', '1234', default);
+
+select * from memo;
+
+commit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

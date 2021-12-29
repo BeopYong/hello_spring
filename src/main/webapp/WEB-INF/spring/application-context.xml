@@ -12,20 +12,35 @@
 	
 	
 	<!-- #6-1. datasource빈 & mybatis빈 등록 -->
-	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
+	<bean class="org.apache.commons.dbcp.BasicDataSource" id="realDataSource" destroy-method="close">
 		<property name="driverClassName" value="${datasource.driverClassName}"/>
 		<property name="url" value="${datasource.url}"/>
 		<property name="username" value="${datasource.username}"/>
 		<property name="password" value="${datasource.password}"/>
 	</bean>
 	
+	
+	<!-- #9-1. log4jdbc ProxyDataSource 빈 설정. realDataSource 빈 참조(ref="realDataSource") -->
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="realDataSource"/>
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE"/>
+				<property name="sqlPrefix" value="[SQL]"/>
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<!-- dataSource 빈 참조(ref="dataSource") -->
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
 		<property name="mapperLocations" value="classpath*:/mapper/**/*-mapper.xml"/> <!-- *=복수개 / **=하위 경로가 여러개 일 수 있음을 의미 -->
 	</bean>
 	
-	<!-- SqlSession 인터페이스 -->
+	
+	<!-- SqlSession 인터페이스. sqlSessionFactoryBean 빈 참조(ref="sqlSessionFactoryBean") -->
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactoryBean"/>
 	</bean>
