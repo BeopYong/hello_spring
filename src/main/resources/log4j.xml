@@ -35,7 +35,7 @@
 	</appender>
 	
 	<!-- File Logging하기 -->
-	<appender class="org.apache.log4j.DailyRollingFileAppendar" name="fileLogger">
+	<appender class="org.apache.log4j.DailyRollingFileAppender" name="fileLogger">
 		<param name="file" value="${catalina.base}/logs/spring/spring.log"/>
 		<param name="append" value="true"/>
 		<param name="datePattern" value=".yyyy-MM-dd"/>
