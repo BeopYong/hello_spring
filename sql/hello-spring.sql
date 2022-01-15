@@ -125,9 +125,6 @@ create table attachment (
 create sequence seq_attachment_no;
 
 
-select * from board;
-select * from attachment;
-
 
 
 Insert into SPRING.BOARD (NO,TITLE,MEMBER_ID,CONTENT,REG_DATE,READ_COUNT) values (SEQ_BOARD_NO.nextval,'안녕하세요, 게시판입니다 - 1','abcde','반갑습니다',to_date('18/02/10','RR/MM/DD'),0);
@@ -227,8 +224,19 @@ order by
 
 
 
+select * from board;
+select * from attachment;
 
-
+-- board와 attachment : left join(outer)
+select
+    b.*,
+    a.*,
+    a.no attach_no
+from
+    board b left join attachment a
+    on b.no = a.board_no
+order by
+    b.no desc;
 
 
 

@@ -59,6 +59,7 @@
                         </div>
 				    </li>
 				    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/memo/memo.do">메모</a></li>
+				    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/menu/menu.do">메뉴</a></li>
 			    </ul>
 			    <c:if test="${empty loginMember}">
 				    <button

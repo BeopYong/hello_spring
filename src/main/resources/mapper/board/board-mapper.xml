@@ -12,6 +12,68 @@
 		order by
 		    no desc
 	</select>
+	
+	<select id="selectTotalContent" resultType="_int">
+		select count(*) from board
+	</select>
+	
+	<insert id="insertBoard">
+		insert into board(no, title, member_id, content)
+		values(
+			seq_board_no.nextval, #{title}, #{memberId}, #{content}
+		)
+		<selectKey order="AFTER" resultType="_int" keyProperty="no">
+			select seq_board_no.currval from dual <!-- insert된 게시글의 번호를 가져올 수 있음 -->
+		</selectKey>
+	</insert>
+	
+	<insert id="insertAttachment">
+		insert into attachment(no, board_no, original_filename, renamed_filename)
+		values(
+			seq_attachment_no.nextval, #{boardNo}, #{originalFilename}, #{renamedFilename}
+		)
+	</insert>
+	
+	<select id="selectOneBoard" resultType="board">
+		select * from board where no = #{no}
+	</select>
+	
+	<select id="selectAttachmentListByBoardNo" resultType="attachment">
+		select * from attachment where board_no = #{boardNo}
+	</select>
+	
+	<select id="selectOneBoardCollection" resultMap="boardCollectionMap">
+		select
+		    b.*,
+		    a.*,
+		    a.no attach_no
+		from
+		    board b left join attachment a
+		    on b.no = a.board_no
+		where
+			b.no = #{no}
+	</select>
+	<resultMap type="board" id="boardCollectionMap">
+		<id column="no" property="no"/>
+		<result column="title" property="title"/>
+		<result column="member_id" property="memberId"/>
+		<result column="content" property="content"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="read_count" property="readCount"/>
+		<collection property="attachments" ofType="attachment">
+			<id column="attach_no" property="no"/>
+			<result column="board_no" property="boardNo"/>
+			<result column="original_filename" property="originalFilename"/>
+			<result column="renamed_filename" property="renamedFilename"/>
+			<result column="upload_date" property="uploadDate"/>
+			<result column="downloadCount" property="downloadCount"/>
+			<result column="status" property="status"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectOneAttachment" resultType="attachment">
+		select * from attachment where no = #{no}
+	</select>
 </mapper>
 
 
